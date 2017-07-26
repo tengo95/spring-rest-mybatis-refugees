@@ -16,10 +16,17 @@ public class RefugeeService {
     @Autowired
     RefugeeMapper refugeeMapper;
 
+
     //get all users using mybatis
     public ArrayList<Refugee> getAllRefugeeData (){
         return refugeeMapper.getAllRefugeeData();
     }
+
+    //get refugee in given year
+    public Refugee getRefugeesInGivenYear (int year, String country) {
+        return refugeeMapper.getRefugeesInGivenYear(year, country);
+    }
+
 
     //add new refugee
     public Refugee addNew(Refugee refugee) {

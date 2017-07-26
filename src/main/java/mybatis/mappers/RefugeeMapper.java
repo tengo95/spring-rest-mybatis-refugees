@@ -1,5 +1,6 @@
 package mybatis.mappers;
 
+import com.sun.org.apache.regexp.internal.RE;
 import mybatis.model.Refugee;
 import org.apache.ibatis.annotations.*;
 
@@ -21,6 +22,8 @@ public interface RefugeeMapper {
     String DELETE_REFUGEE = "DELETE FROM `immigrants`.refugees_all WHERE id = #{id}";
     String GET_BY_DATA = "SELECT * FROM `immigrants`.refugees_all where year = #{year} " +
             "AND country = #{country} AND origin = #{origin} AND refugees = #{refugees}";
+    String GET_REFUGEES_IN_GIVE_YEAR = "SELECT total_population FROM `immigrants`.refugees_all " +
+            "WHERE year = #{year} AND country = #{country}";
 
 
     @Select(GET_ALL_REFUGEE_DATA)
@@ -28,6 +31,9 @@ public interface RefugeeMapper {
 
     @Select(GET_BY_DATA)
     public Refugee getByData (int year, String country, String origin, double refugees);
+
+    @Select(GET_REFUGEES_IN_GIVE_YEAR)
+    public Refugee getRefugeesInGivenYear (int year, String country);
 
     @Insert(INSERT_REFUGEE)
     public int insertRefugee (Refugee refugee);

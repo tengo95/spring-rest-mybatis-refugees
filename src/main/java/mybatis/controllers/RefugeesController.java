@@ -2,6 +2,7 @@ package mybatis.controllers;
 
 import mybatis.model.Refugee;
 import mybatis.services.RefugeeService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +23,16 @@ public class RefugeesController {
     //RequestMapping maps URLs to methods
 
     //Get
-    @RequestMapping("/")
+    @RequestMapping("/all")
     public ArrayList<Refugee> getAllRefugeeData() {
         return refugeeService.getAllRefugeeData();
+    }
+
+    //get total refugees in a country in a given year
+    @RequestMapping(method = RequestMethod.GET, value = "/")
+    public Refugee getRefugeesInAGivenYear(@RequestParam(value = "year")int year,
+                                           @RequestParam(value = "country")String country) {
+        return refugeeService.getRefugeesInGivenYear(year, country);
     }
 
     //Create
@@ -43,5 +51,12 @@ public class RefugeesController {
     @RequestMapping(method= RequestMethod.DELETE, value="/")
     public int deleteById(@RequestParam(value="id")int id){
         return refugeeService.deleteById(id);
+    }
+
+
+    @RequestMapping(value = "/custom", method = RequestMethod.GET)
+    public Refugee getCustom(@RequestParam(value="year")int year,
+                                        @RequestParam(value="country")String country) {
+        return null;
     }
 }
