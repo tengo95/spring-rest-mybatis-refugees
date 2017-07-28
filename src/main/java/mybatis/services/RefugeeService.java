@@ -1,7 +1,7 @@
 package mybatis.services;
 
 import mybatis.mappers.RefugeeMapper;
-import mybatis.model.Refugee;
+import mybatis.model.Sample.Refugee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

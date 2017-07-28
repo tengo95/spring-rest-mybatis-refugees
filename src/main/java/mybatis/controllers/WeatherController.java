@@ -1,0 +1,67 @@
+package mybatis.controllers;
+
+import mybatis.model.DarkSkyWeather.Forecast;
+import mybatis.model.DarkSkyWeather.HistoricalDaySummary;
+import mybatis.model.DarkSkyWeather.HourlyAverage;
+import mybatis.model.DarkSkyWeather.WeeklyForecast;
+import mybatis.services.WeatherService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+
+/**
+ * Created by tanerali on 26/07/2017.
+ */
+
+@RestController
+@RequestMapping("/weather")
+public class WeatherController {
+
+    @Autowired
+    RestTemplate restTemplate;
+
+
+    @Autowired
+    WeatherService weatherService;
+
+    @RequestMapping("/current")
+    public Forecast getCurrentForecast(@RequestParam(value="latitude")double latitude,
+                                       @RequestParam(value="longitude")double longitude) {
+        return weatherService.getCurrentForecast(latitude, longitude);
+    }
+
+    @RequestMapping("/current/average")
+    public HourlyAverage getCurrentHourlyAverage(@RequestParam(value="latitude")double latitude,
+                                                 @RequestParam(value="longitude")double longitude) {
+        return weatherService.getCurrentHourlyAverage(latitude, longitude);
+    }
+
+    @RequestMapping("/weekly/")
+    public ArrayList<WeeklyForecast> getWeeklyForecast(@RequestParam(value="latitude")double latitude,
+                                            @RequestParam(value="longitude")double longitude) {
+        return weatherService.getWeeklyForecast(latitude, longitude);
+    }
+
+    @RequestMapping("/historical")
+    public Forecast getHistoricalWeather(@RequestParam(value="latitude")double latitude,
+                                         @RequestParam(value="longitude")double longitude,
+                                         @RequestParam(value = "timeMM/DD/YYYY")String time) {
+        return weatherService.getHistoricalWeather(latitude, longitude, time);
+    }
+
+    @RequestMapping("/historical/summary")
+    public ArrayList<HistoricalDaySummary> getHistoricalSummary(@RequestParam(value="latitude")double latitude,
+                                                                @RequestParam(value="longitude")double longitude,
+                                                                @RequestParam(value = "timeMM/DD/YYYY")String time) {
+        return weatherService.getHistoricalSummary(latitude, longitude, time);
+    }
+
+    //Add weekly forecast to database
+    @RequestMapping(method = RequestMethod.POST, value = "/weeklyDB")
+    public ArrayList<WeeklyForecast> addNewWeeklyForecast(@RequestParam(value="latitude")double latitude,
+                                                          @RequestParam(value="longitude")double longitude) {
+        return weatherService.addNewWeeklyForecast(latitude, longitude);
+    }
+}

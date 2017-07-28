@@ -1,8 +1,7 @@
 package mybatis.controllers;
 
-import mybatis.model.Refugee;
+import mybatis.model.Sample.Refugee;
 import mybatis.services.RefugeeService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

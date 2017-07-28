@@ -1,4 +1,4 @@
-package mybatis.model;
+package mybatis.model.Sample;
 
 public class Greeting {
 

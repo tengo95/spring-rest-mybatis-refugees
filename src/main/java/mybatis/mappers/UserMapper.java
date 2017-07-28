@@ -1,6 +1,6 @@
 package mybatis.mappers;
 
-import mybatis.model.User;
+import mybatis.model.Sample.User;
 import org.apache.ibatis.annotations.*;
 import java.util.ArrayList;
 

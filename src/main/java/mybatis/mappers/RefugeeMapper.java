@@ -1,7 +1,6 @@
 package mybatis.mappers;
 
-import com.sun.org.apache.regexp.internal.RE;
-import mybatis.model.Refugee;
+import mybatis.model.Sample.Refugee;
 import org.apache.ibatis.annotations.*;
 
 import java.util.ArrayList;

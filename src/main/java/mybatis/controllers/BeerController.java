@@ -32,6 +32,7 @@ public class BeerController {
 
     @RequestMapping("/beer/randomWithBrewery")
     public HomeworkBeer2 getRandomBeerBrewery() {
+
         Beer beer = restTemplate.getForObject(
                 "http://api.brewerydb.com/v2/beer/random?key=555b3a6999068ef21a9075893a4524a6", Beer.class);
         String beerID = beer.getData().getId();

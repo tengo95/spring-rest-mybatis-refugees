@@ -1,4 +1,4 @@
-package mybatis.model;
+package mybatis.model.Sample;
 
 /**
  * Created by tanerali on 24/07/2017.
