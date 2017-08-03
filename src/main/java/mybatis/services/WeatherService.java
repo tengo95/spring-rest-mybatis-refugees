@@ -1,7 +1,6 @@
 package mybatis.services;
 
-import mybatis.mappers.DarkSkyWeatherMapper;
-import mybatis.model.BeerDB.Data;
+import mybatis.mappers.WeatherMapper;
 import mybatis.model.DarkSkyWeather.Forecast;
 import mybatis.model.DarkSkyWeather.HistoricalDaySummary;
 import mybatis.model.DarkSkyWeather.HourlyAverage;
@@ -11,12 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by tanerali on 26/07/2017.
@@ -28,7 +26,7 @@ public class WeatherService {
     RestTemplate restTemplate;
 
     @Autowired
-    DarkSkyWeatherMapper darkSkyWeatherMapper;
+    WeatherMapper weatherMapper;
 
 
     public Forecast getCurrentForecast(double latitude, double longitude) {
@@ -145,55 +143,82 @@ public class WeatherService {
 
 
     public ArrayList<WeeklyForecast> getDBWeeklyForecast(){
-        return darkSkyWeatherMapper.getDBWeeklyForecast();
+        return weatherMapper.getDBWeeklyForecast();
     }
+
+
+
+
+
 
 
     public ArrayList<WeeklyForecast> addNewWeeklyForecast (double latitude, double longitude) {
 
-        //get current date; used to compare with the date of the last row in the database
-        Calendar currentDate = Calendar.getInstance();
-
         //create a date formatter
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy;");
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy;");
 
-        //create a date object that will receive the date of the last row in the weather
+        //create a calendar object that will receive the date of the last row in the weather
         //database
-        Date dateOfLastRowInDB;
+        Calendar dateOfLastRowInDB = Calendar.getInstance();
 
-        //string that holds the date of the last row in the database
-        String dateInText = getDBWeeklyForecast().get( getDBWeeklyForecast().size()-1 ).getDate();
-
-        //convert date of last row in database from String to Date
+        //if database is empty can throw an ArrayIndexOutOfBoundsException
         try {
-            dateOfLastRowInDB = df.parse(dateInText);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            //string that holds the date of the last row in the database
+            ArrayList<WeeklyForecast> weeklyForecastArrayList = weatherMapper.getDBWeeklyForecast();
+            String dateInText = weeklyForecastArrayList.get( getDBWeeklyForecast().size()-1 ).getDate();
+
+            //convert date of last row in database from String to Calendar
+            try {
+                dateOfLastRowInDB.setTime(df.parse(dateInText) );
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        //if database is empty, populate it with the next week's forecast from the API call
+        } catch (ArrayIndexOutOfBoundsException exc) {
+            Forecast forecast = restTemplate.getForObject("https://api.darksky.net/forecast/" +
+                    "f35d6277f5c7fe98f42caef12e120890/"+ latitude+","+ longitude, Forecast.class);
+
+            //object to receive each daily forecast in next week in the for loop
+            WeeklyForecast weeklyForecast;
+
+            for (int i=0; i<8; i++) {
+                weeklyForecast = new WeeklyForecast(forecast.getDaily().getData()[i] );
+                weatherMapper.insertDBWeeklyForecast(weeklyForecast);
+            }
+            return weatherMapper.getDBWeeklyForecast();
         }
+
+
+        //Calendar object that holds the date 8 days ahead
+        Calendar nextWeekDate = Calendar.getInstance();
+        nextWeekDate.add(Calendar.DATE,8);
+
 
         //if database does not have the whole forecast for the week ahead, populate it with the remaining
         //daily forecasts; else, return weekly forecast from database instead of from API call
-        if (dateOfLastRowInDB <  ) {
+        if (dateOfLastRowInDB.get(Calendar.DATE) < nextWeekDate.get(Calendar.DATE) ) {
 
             Forecast forecast = restTemplate.getForObject("https://api.darksky.net/forecast/" +
                     "f35d6277f5c7fe98f42caef12e120890/"+ latitude+","+ longitude, Forecast.class);
 
 
-            //TODO: current implementation works only if program run every day
-            // String datesFromAPI = DateUnix.secondsToDate(forecast.getDaily().getData()[0].getTime() );
-            // String datesFromDB = darkSkyWeatherMapper.
+            //TODO: current implementation works only if program is run every day
 
 
             WeeklyForecast weeklyForecast;
 
-            for (int i=getDBWeeklyForecast().size(); i<8; i++) {
+//            long diffBetweenDatesInSecs = nextWeekDate.getTimeInMillis()/1000 - dateOfLastRowInDB.getTimeInMillis()/1000;
+//            int diffBetweenDatesInDays = DateUnix.diffBetweenDatesInDays(diffBetweenDatesInSecs);
+
+            for (int i = dateOfLastRowInDB.get(Calendar.DATE); i < nextWeekDate.get(Calendar.DATE); i++) {
                 weeklyForecast = new WeeklyForecast(forecast.getDaily().getData()[i] );
-                darkSkyWeatherMapper.insertDBWeeklyForecast(weeklyForecast);
+                weatherMapper.insertDBWeeklyForecast(weeklyForecast);
             }
-            return darkSkyWeatherMapper.getDBWeeklyForecast();
+            return weatherMapper.getDBWeeklyForecast();
 
         } else {
-            return darkSkyWeatherMapper.getDBWeeklyForecast();
+            return weatherMapper.getDBWeeklyForecast();
         }
     }
 

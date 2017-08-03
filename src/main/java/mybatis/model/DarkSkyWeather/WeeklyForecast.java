@@ -23,8 +23,8 @@ public class WeeklyForecast {
     public WeeklyForecast(Data data) {
         this.date = DateUnix.secondsToDate(data.getTime());
         this.summary = data.getSummary();
-        this.sunrise = DateUnix.secondsToDate(data.getSunriseTime() );
-        this.sunset = DateUnix.secondsToDate(data.getSunsetTime() );
+        this.sunrise = DateUnix.secondsToSpecificTime(data.getSunriseTime() );
+        this.sunset = DateUnix.secondsToSpecificTime(data.getSunsetTime() );
         this.precipProbability = data.getPrecipProbability();
         this.temperatureMax = data.getTemperatureMax();
         this.windSpeed = data.getWindSpeed();

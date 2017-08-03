@@ -42,4 +42,8 @@ public class DateUnix {
 
         return date;
     }
+
+    public static int diffBetweenDatesInDays (long diffBetweenDatesInSeconds) {
+        return (int) (diffBetweenDatesInSeconds*60*60*24);
+    }
 }

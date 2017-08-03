@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by tanerali on 27/07/2017.
  */
 @Mapper
-public interface DarkSkyWeatherMapper {
+public interface WeatherMapper {
 
     String GET_WEEKLY_FORECAST= "SELECT * FROM `weatherForecast`.weeklyForecast";
 
