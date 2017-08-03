@@ -37,7 +37,7 @@ public class DateUnix {
 
         Date dateOb = new Date(timeInMillis*1000);
 
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:MM:SS");
+        DateFormat df = new SimpleDateFormat("HH:MM:SS");
         String date = df.format(dateOb);
 
         return date;

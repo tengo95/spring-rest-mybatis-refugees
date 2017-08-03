@@ -1,4 +1,4 @@
-package mybatis.controllers;
+package mybatis.rest_controllers;
 
 import java.util.ArrayList;
 

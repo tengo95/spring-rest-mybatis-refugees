@@ -1,4 +1,4 @@
-package mybatis.controllers;
+package mybatis.rest_controllers;
 
 import mybatis.model.DarkSkyWeather.Forecast;
 import mybatis.model.DarkSkyWeather.HistoricalDaySummary;
@@ -6,7 +6,6 @@ import mybatis.model.DarkSkyWeather.HourlyAverage;
 import mybatis.model.DarkSkyWeather.WeeklyForecast;
 import mybatis.services.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -44,16 +43,13 @@ public class WeatherController {
 
 
     @RequestMapping("/weekly")
-    public String getWeeklyForecast (@RequestParam(value="latitude")double latitude,
-                                     @RequestParam(value="longitude")double longitude,
-                                     Model model) {
-
+    public ArrayList<WeeklyForecast> getWeeklyForecast (@RequestParam(value="latitude")double latitude,
+                                                        @RequestParam(value="longitude")double longitude,
+                                                        Model model) {
 
         ArrayList<WeeklyForecast> weeklyForecast = weatherService.getWeeklyForecast(latitude, longitude);
 
-        model.addAttribute("weeklyForecast", weeklyForecast);
-
-        return "weeklyForecast";
+        return weeklyForecast;
     }
 
 

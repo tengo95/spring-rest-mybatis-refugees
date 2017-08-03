@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>List Authors</title>
+    <title>Weather Forecast</title>
 </head>
 <body>
 
-<div fragment="content">
+<div>
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>#</th>
             <th>date</th>
             <th>summary</th>
             <th>sunrise</th>
             <th>sunset</th>
-            <th>precipProbability</th>
-            <th>temperatureMax</th>
-            <th>windSpeed</th>
+            <th>precipitation</th>
+            <th>temperature</th>
+            <th>wind speed</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="weeklyForecast, iterationStatus : ${weeklyForecasts}">
-            <td th:text="${iterationStatus.count}">1</td>
+        <tr th:each="weeklyForecast : ${weeklyForecasts}">
             <td th:text="${weeklyForecast.date}">date</td>
             <td th:text="${weeklyForecast.summary}">summary</td>
             <td th:text="${weeklyForecast.sunrise}">sunrise</td>
             <td th:text="${weeklyForecast.sunset}">sunset</td>
-            <td th:text="${result.precipProbability}">precipProbability</td>
-            <td th:text="${result.temperatureMax}">temperatureMax</td>
-            <td th:text="${result.windSpeed}">windSpeed</td>
+            <td th:text="${weeklyForecast.precipProbability}">precipitation</td>
+            <td th:text="${weeklyForecast.temperatureMax}">temperature</td>
+            <td th:text="${weeklyForecast.windSpeed}">wind speed</td>
+            <br/>
         </tr>
         </tbody>
     </table>
