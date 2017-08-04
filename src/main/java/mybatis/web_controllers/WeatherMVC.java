@@ -21,7 +21,7 @@ public class WeatherMVC {
     @RequestMapping("/MVC/weeklyDB")
     public String getDBWeeklyForecast (Model model) {
 
-        model.addAttribute("weeklyForecasts", weatherService.getDBWeeklyForecast());
+        model.addAttribute("weeklyForecasts", weatherService.getDailyForecastsFromDB());
 
         return "forecast";
     }

@@ -1,6 +1,6 @@
 package mybatis.mappers;
 
-import mybatis.model.DarkSkyWeather.WeeklyForecast;
+import mybatis.model.DarkSkyWeather.DayInWeeklyForecast;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -13,21 +13,21 @@ import java.util.ArrayList;
 @Mapper
 public interface WeatherMapper {
 
-    String GET_WEEKLY_FORECAST= "SELECT * FROM `weatherForecast`.weeklyForecast";
+    String GET_WEEKLY_FORECAST= "SELECT * FROM `weatherapi`.weather_thailand";
 
-    String GET_SPECIFIC_DAY = "SELECT * FROM `weatherForecast`.weeklyForecast WHERE date = #{date}";
+    String GET_SPECIFIC_DAY = "SELECT * FROM `weatherapi`.weather_thailand WHERE date = #{date}";
 
-    String INSERT_WEEKLY_FORECAST = "INSERT INTO `weatherForecast`.weeklyForecast " +
-            "(date, summary, sunrise, sunset, precipProbability, temperatureMax, windSpeed) " +
+    String INSERT_WEEKLY_FORECAST = "INSERT INTO `weatherapi`.weather_thailand " +
+            "(date, summary, sunrise, sunset, precipProbability, temperatureMax, windSpeed, latitude, longitude) " +
             "VALUES (#{date}, #{summary}, #{sunrise}, #{sunset}, " +
-            "#{precipProbability}, #{temperatureMax}, #{windSpeed})";
+            "#{precipProbability}, #{temperatureMax}, #{windSpeed}, #{latitude}, #{longitude})";
 
     @Select(GET_WEEKLY_FORECAST)
-    public ArrayList<WeeklyForecast> getDBWeeklyForecast();
+    public ArrayList<DayInWeeklyForecast> getDailyForecastsFromDB();
 
     @Select(GET_SPECIFIC_DAY)
-    public ArrayList<WeeklyForecast> getSpecificDay();
+    public ArrayList<DayInWeeklyForecast> getSpecificDay();
 
     @Insert(INSERT_WEEKLY_FORECAST)
-    public int insertDBWeeklyForecast (WeeklyForecast weeklyForecast);
+    public int insertDBWeeklyForecast (DayInWeeklyForecast dayInWeeklyForecast);
 }

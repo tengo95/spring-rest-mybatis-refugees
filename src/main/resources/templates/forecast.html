@@ -22,14 +22,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="weeklyForecast : ${weeklyForecasts}">
-            <td th:text="${weeklyForecast.date}">date</td>
-            <td th:text="${weeklyForecast.summary}">summary</td>
-            <td th:text="${weeklyForecast.sunrise}">sunrise</td>
-            <td th:text="${weeklyForecast.sunset}">sunset</td>
-            <td th:text="${weeklyForecast.precipProbability}">precipitation</td>
-            <td th:text="${weeklyForecast.temperatureMax}">temperature</td>
-            <td th:text="${weeklyForecast.windSpeed}">wind speed</td>
+        <tr th:each="dayInWeeklyForecast : ${weeklyForecasts}">
+            <td th:text="${dayInWeeklyForecast.date}">date</td>
+            <td th:text="${dayInWeeklyForecast.summary}">summary</td>
+            <td th:text="${dayInWeeklyForecast.sunrise}">sunrise</td>
+            <td th:text="${dayInWeeklyForecast.sunset}">sunset</td>
+            <td th:text="${dayInWeeklyForecast.precipProbability}">precipitation</td>
+            <td th:text="${dayInWeeklyForecast.temperatureMax}">temperature</td>
+            <td th:text="${dayInWeeklyForecast.windSpeed}">wind speed</td>
             <br/>
         </tr>
         </tbody>

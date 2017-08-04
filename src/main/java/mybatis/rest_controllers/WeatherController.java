@@ -1,9 +1,9 @@
 package mybatis.rest_controllers;
 
+import mybatis.model.DarkSkyWeather.DayInWeeklyForecast;
 import mybatis.model.DarkSkyWeather.Forecast;
 import mybatis.model.DarkSkyWeather.HistoricalDaySummary;
 import mybatis.model.DarkSkyWeather.HourlyAverage;
-import mybatis.model.DarkSkyWeather.WeeklyForecast;
 import mybatis.services.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -43,13 +43,13 @@ public class WeatherController {
 
 
     @RequestMapping("/weekly")
-    public ArrayList<WeeklyForecast> getWeeklyForecast (@RequestParam(value="latitude")double latitude,
-                                                        @RequestParam(value="longitude")double longitude,
-                                                        Model model) {
+    public ArrayList<DayInWeeklyForecast> getWeeklyForecast (@RequestParam(value="latitude")double latitude,
+                                                             @RequestParam(value="longitude")double longitude,
+                                                             Model model) {
 
-        ArrayList<WeeklyForecast> weeklyForecast = weatherService.getWeeklyForecast(latitude, longitude);
+        ArrayList<DayInWeeklyForecast> dayInWeeklyForecast = weatherService.getWeeklyForecast(latitude, longitude);
 
-        return weeklyForecast;
+        return dayInWeeklyForecast;
     }
 
 
@@ -70,8 +70,8 @@ public class WeatherController {
 
     //Add weekly forecast to database
     @RequestMapping(method = RequestMethod.POST, value = "/weeklyDB")
-    public ArrayList<WeeklyForecast> addNewWeeklyForecast(@RequestParam(value="latitude")double latitude,
-                                                          @RequestParam(value="longitude")double longitude) {
+    public ArrayList<DayInWeeklyForecast> addNewWeeklyForecast(@RequestParam(value="latitude")double latitude,
+                                                               @RequestParam(value="longitude")double longitude) {
         return weatherService.addNewWeeklyForecast(latitude, longitude);
     }
 }

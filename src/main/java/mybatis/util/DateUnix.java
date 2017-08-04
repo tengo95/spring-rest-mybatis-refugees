@@ -3,7 +3,9 @@ package mybatis.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by tanerali on 26/07/2017.
@@ -33,17 +35,26 @@ public class DateUnix {
         return date;
     }
 
-    public static String secondsToSpecificTime (long timeInMillis) {
+    public static String secondsToSpecificTime (long timeInSecs) {
 
-        Date dateOb = new Date(timeInMillis*1000);
+//        Date dateOb = new Date(timeInSecs*1000);
 
-        DateFormat df = new SimpleDateFormat("HH:MM:SS");
-        String date = df.format(dateOb);
+        Calendar calendarOb = new GregorianCalendar();
+        calendarOb.setTimeInMillis(timeInSecs*1000);
 
-        return date;
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+
+        df.setCalendar(calendarOb);
+
+        String time = df.format(calendarOb.getTime());
+
+        return time;
     }
 
-    public static int diffBetweenDatesInDays (long diffBetweenDatesInSeconds) {
-        return (int) (diffBetweenDatesInSeconds*60*60*24);
+    public static int diffBetweenDatesInDays (Calendar date1, Calendar date2) {
+
+        long diffBetweenDatesInMillisecs = date1.getTimeInMillis() - date2.getTimeInMillis();
+
+        return (int) (diffBetweenDatesInMillisecs/1000/60/60/24);
     }
 }

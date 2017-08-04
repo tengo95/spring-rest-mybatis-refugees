@@ -10,7 +10,7 @@ import mybatis.util.DateUnix;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties
-public class WeeklyForecast {
+public class DayInWeeklyForecast {
     String date;
     String summary;
     String sunrise;
@@ -18,9 +18,11 @@ public class WeeklyForecast {
     double precipProbability;
     double temperatureMax;
     double windSpeed;
+    double latitude;
+    double longitude;
 
 
-    public WeeklyForecast(Data data) {
+    public DayInWeeklyForecast(Data data) {
         this.date = DateUnix.secondsToDate(data.getTime());
         this.summary = data.getSummary();
         this.sunrise = DateUnix.secondsToSpecificTime(data.getSunriseTime() );
@@ -30,7 +32,7 @@ public class WeeklyForecast {
         this.windSpeed = data.getWindSpeed();
     }
 
-    public WeeklyForecast() {
+    public DayInWeeklyForecast() {
     }
 
     public String getDate() {
@@ -87,5 +89,21 @@ public class WeeklyForecast {
 
     public void setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
